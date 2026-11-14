@@ -1,0 +1,54 @@
+<section class="card">
+  <h1>{{ editingId() === null ? 'Nouveau rendez-vous' : 'Modifier le rendez-vous' }}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="grid">
+    <label class="full">
+      Objet
+      <input formControlName="title" />
+    </label>
+    <label>
+      Début
+      <input type="datetime-local" formControlName="startsAt" />
+    </label>
+    <label>
+      Fin
+      <input type="datetime-local" formControlName="endsAt" />
+    </label>
+    <label class="full">
+      Notes
+      <textarea formControlName="notes" rows="2"></textarea>
+    </label>
+
+    @if (error(); as message) {
+      <p class="error full">{{ message }}</p>
+    }
+
+    <div class="actions full">
+      <button type="submit">{{ editingId() === null ? 'Ajouter' : 'Enregistrer' }}</button>
+      @if (editingId() !== null) {
+        <button type="button" class="secondary" (click)="cancel()">Annuler</button>
+      }
+    </div>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Mes rendez-vous</h2>
+  @for (a of appointments(); track a.id) {
+    <article class="item">
+      <div>
+        <strong>{{ a.title }}</strong>
+        <p>{{ a.startsAt | date: 'EEEE d MMMM y, HH:mm' }} – {{ a.endsAt | date: 'HH:mm' }}</p>
+        @if (a.notes) {
+          <p class="muted">{{ a.notes }}</p>
+        }
+      </div>
+      <div class="actions">
+        <button type="button" class="secondary" (click)="edit(a)">Modifier</button>
+        <button type="button" class="danger" (click)="remove(a)">Supprimer</button>
+      </div>
+    </article>
+  } @empty {
+    <p class="muted">Aucun rendez-vous pour le moment.</p>
+  }
+</section>
