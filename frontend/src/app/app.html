@@ -1,0 +1,10 @@
+<header>
+  <span class="brand">Agenda RDV</span>
+  @if (auth.isLoggedIn()) {
+    <button type="button" class="link" (click)="logout()">Déconnexion</button>
+  }
+</header>
+
+<main>
+  <router-outlet />
+</main>
