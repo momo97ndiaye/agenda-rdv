@@ -1,6 +1,6 @@
 # agenda-rdv
 
-Application de prise de rendez-vous : API Spring Boot sécurisée par JWT, front Angular (en cours).
+Application de prise de rendez-vous : API Spring Boot sécurisée par JWT et front Angular.
 
 ![CI](https://github.com/momo97ndiaye/agenda-rdv/actions/workflows/ci.yml/badge.svg)
 
@@ -22,17 +22,30 @@ Java 17 · Spring Boot 3.3 · Spring Security (OAuth2 Resource Server) · Spring
 | PUT | `/api/appointments/{id}` | modifier |
 | DELETE | `/api/appointments/{id}` | supprimer |
 
+## Front-end
+
+- Angular 21 : composants standalone, signals, formulaires réactifs.
+- Connexion et inscription, jeton ajouté par un intercepteur HTTP, retour à la connexion si le jeton expire.
+- Liste, création, modification et suppression des rendez-vous ; messages d'erreur de l'API affichés (créneau déjà pris, dates incohérentes).
+- Tests unitaires avec Vitest.
+
 ## Lancer en local
 
 ```bash
 docker compose up -d
+
 cd backend
 export JWT_SECRET=une-cle-d-au-moins-32-caracteres
 mvn spring-boot:run
+
+cd ../frontend
+npm install
+npm start          # http://localhost:4200, les appels /api sont redirigés vers le back-end
 ```
 
 ## Tests
 
 ```bash
 cd backend && mvn verify
+cd frontend && npx ng test --watch=false
 ```
