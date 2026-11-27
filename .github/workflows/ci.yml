@@ -20,6 +20,7 @@ jobs:
           cache: maven
           cache-dependency-path: backend/pom.xml
       - run: mvn -B verify
+      - run: docker build -t agenda-rdv-backend .
 
   frontend:
     runs-on: ubuntu-latest
