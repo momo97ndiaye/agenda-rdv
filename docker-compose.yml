@@ -7,3 +7,15 @@ services:
       POSTGRES_PASSWORD: agenda
     ports:
       - "5432:5432"
+
+  backend:
+    build: ./backend
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/agenda
+      DB_USER: agenda
+      DB_PASSWORD: agenda
+      JWT_SECRET: ${JWT_SECRET:?Définir JWT_SECRET (32 caractères minimum)}
+    ports:
+      - "8080:8080"
