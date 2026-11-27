@@ -10,8 +10,9 @@ Application de prise de rendez-vous : API Spring Boot sécurisée par JWT et fro
 - CRUD des rendez-vous : chaque utilisateur ne voit et ne modifie que les siens.
 - Refus des créneaux qui se chevauchent (409) et des créneaux dont la fin précède le début (400).
 - PostgreSQL, migrations Flyway, erreurs au format Problem Details (RFC 7807).
+- Tests d'intégration sur un vrai PostgreSQL (Testcontainers), image Docker construite en CI.
 
-Java 17 · Spring Boot 3.3 · Spring Security (OAuth2 Resource Server) · Spring Data JPA · Flyway · JUnit 5
+Java 17 · Spring Boot 3.3 · Spring Security (OAuth2 Resource Server) · Spring Data JPA · Flyway · JUnit 5 · Testcontainers · Docker
 
 | Méthode | Route | |
 |---|---|---|
@@ -31,8 +32,18 @@ Java 17 · Spring Boot 3.3 · Spring Security (OAuth2 Resource Server) · Spring
 
 ## Lancer en local
 
+Tout avec Docker :
+
 ```bash
-docker compose up -d
+export JWT_SECRET=une-cle-d-au-moins-32-caracteres
+docker compose up -d --build        # PostgreSQL + API sur http://localhost:8080
+cd frontend && npm install && npm start
+```
+
+Ou en développement :
+
+```bash
+docker compose up -d postgres
 
 cd backend
 export JWT_SECRET=une-cle-d-au-moins-32-caracteres
@@ -46,6 +57,6 @@ npm start          # http://localhost:4200, les appels /api sont redirigés vers
 ## Tests
 
 ```bash
-cd backend && mvn verify
+cd backend && mvn verify          # Docker requis (Testcontainers)
 cd frontend && npx ng test --watch=false
 ```
